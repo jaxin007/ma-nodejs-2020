@@ -19,6 +19,6 @@ class Earth extends Planet {
     }
 }
 
-const mars = new Planet ('Mars', 6779);
+const earth = new Planet ('Earth', 12742);
 
-module.exports = mars;
+module.exports = earth;
