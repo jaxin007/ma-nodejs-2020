@@ -13,6 +13,6 @@ class Planet {
   }
 }
 
-const earth = new Planet("Earth", 12742);
+const earth = new Planet('Earth', 12742);
 
 module.exports = earth;

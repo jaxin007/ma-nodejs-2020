@@ -1,5 +1,5 @@
 function setTimeOutPromise(time, text) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve(text);
     }, time);
