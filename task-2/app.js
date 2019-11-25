@@ -1,10 +1,10 @@
 const { sum: lection, mars: spaceObject, setTimeOutPromise } = require('./src/index.js');
 
-const result = lection(1, 2, 3);
+const result = lection(1, 3, 3);
 
 async function boot() {
     console.log(result);
-    setTimeOutPromise(1000, '2');
+    await setTimeOutPromise(1000, 'some text');
     console.log(spaceObject);
 };
 
