@@ -1,4 +1,4 @@
-const { sum: lection, mars: spaceObject, setTimeOutPromise } = require('./src/index.js');
+const { sum: lection, mars: spaceObject, setTimeOutPromise } = require('./src');
 
 const result = lection(1, 3, 3);
 
