@@ -7,6 +7,7 @@
     "nanoid": "^2.1.6"
   },
   "devDependencies": {
+    "husky": "^3.0.9",
     "eslint": "^6.6.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.5.0",
