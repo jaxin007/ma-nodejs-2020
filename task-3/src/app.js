@@ -17,6 +17,9 @@ setInterval(() => {
   if (isPrime(number)) {
     theBiggestPrimeNumber = number;
   }
+}, 1);
+
+setInterval(() => {
   console.log(
     `${Date.now()}:-- IN PROCESS -- Biggest prime number found: ${theBiggestPrimeNumber}`,
   );
