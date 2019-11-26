@@ -1,10 +1,9 @@
 {
-  "name": "src",
+  "name": "homework-03",
   "version": "",
-  "description": "homework-02",
-  "main": "index,.js",
+  "description": "",
+  "main": "",
   "dependencies": {
-    "nanoid": "^2.1.6"
   },
   "devDependencies": {
     "husky": "^3.0.9",
