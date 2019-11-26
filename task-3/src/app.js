@@ -9,15 +9,15 @@ function isPrime(num) {
   return true;
 }
 
-let theBiggestNumber = 0;
-const date = +new Date();
+let theBiggestPrimeNumber = 1;
+let number = 1;
 
-for (let i = 0; ; i += 1) {
-  if (isPrime(i)) {
-    theBiggestNumber = i;
+setInterval(() => {
+  number += 1;
+  if (isPrime(number)) {
+    theBiggestPrimeNumber = number;
   }
-  if (+new Date() - date >= 5000) {
-    console.log(`${+new Date()}:-- IN PROCESS -- Biggest prime number found: ${theBiggestNumber}`);
-    break;
-  }
-}
+  console.log(
+    `${Date.now()}:-- IN PROCESS -- Biggest prime number found: ${theBiggestPrimeNumber}`,
+  );
+}, 1000);
