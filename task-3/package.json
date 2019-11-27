@@ -1,10 +1,9 @@
 {
-  "name": "src",
+  "name": "homework-03",
   "version": "",
-  "description": "second-task",
-  "main": "index,.js",
+  "description": "",
+  "main": "",
   "dependencies": {
-    "nanoid": "^2.1.6"
   },
   "devDependencies": {
     "husky": "^3.0.9",
@@ -16,9 +15,9 @@
     "prettier": "^1.19.1"
   },
   "scripts": {
-    "start": "node ./src/index.js",
+    "start": "node ./src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "npx eslint src/** --fix"
+    "lint": "./node_modules/.bin/eslint.cmd --fix ./src/**.js"
   },
   "husky": {
     "hooks": {
