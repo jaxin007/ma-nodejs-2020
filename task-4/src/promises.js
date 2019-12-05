@@ -1,34 +1,26 @@
 const { throwDice } = require('./app');
 
-let firstDice;
-let secondDice;
-let sum;
-
 function throwDiceAfter(timeInMillis) {
-  const nameOfVariable = new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
-      nameOfVariable = throwDice();
-      if (nameOfVariable === 0) {
+      const diceThrow = throwDice(0, 6);
+      if (diceThrow === 0) {
         return reject(new Error('Dice lost'));
       }
-      resolve(nameOfVariable);
+      resolve(diceThrow);
+      return diceThrow;
     }, timeInMillis);
   });
 }
 
-const secondThrow = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    secondDice = throwDice();
-    if (secondDice === 0) {
-      return reject(new Error('Dice lost'));
-    }
-    resolve(secondDice);
-  }, 2000);
-});
-
-const result = new Promise((resolve) => {
-  setTimeout(() => {
-    sum = firstDice + secondDice;
-    resolve(sum);
-  }, 3000);
-});
+throwDiceAfter(700)
+  .then((firstThrow) => {
+    throwDiceAfter(2000)
+      .then((secondThrow) => {
+        console.log(`after 0.7 sec we got first throw: ${firstThrow}`);
+        console.log(`after 2 sec we got second throw: ${secondThrow}`);
+        console.log(`result both throws is: ${firstThrow + secondThrow}`);
+      })
+      .catch(console.error);
+  })
+  .catch(console.error);
