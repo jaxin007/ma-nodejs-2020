@@ -1,4 +1,4 @@
-const { throwDice } = require('./app');
+const { throwDice } = require('./throwdicefunc');
 
 function throwDiceAfter(timeInMillis) {
   return new Promise((resolve, reject) => {
@@ -8,7 +8,7 @@ function throwDiceAfter(timeInMillis) {
         return reject(new Error('Dice lost'));
       }
       resolve(diceThrow);
-      return diceThrow;
+      return resolve();
     }, timeInMillis);
   });
 }
@@ -24,3 +24,5 @@ throwDiceAfter(700)
       .catch(console.error);
   })
   .catch(console.error);
+
+module.exports;

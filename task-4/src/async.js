@@ -1,4 +1,4 @@
-const { throwDice } = require('./app');
+const { throwDice } = require('./throwdicefunc');
 
 function throwDiceAfter(timeInMillis) {
   return new Promise((resolve, reject) => {
@@ -25,3 +25,5 @@ async function boot() {
 }
 
 boot();
+
+module.exports;

@@ -1,4 +1,4 @@
-const { throwDice } = require('./app');
+const { throwDice } = require('./throwdicefunc');
 
 let firstDice;
 let secondDice;
@@ -27,3 +27,5 @@ setTimeout(() => {
   console.log(`result: ${sum}`);
   return sum;
 }, 3000);
+
+module.exports
