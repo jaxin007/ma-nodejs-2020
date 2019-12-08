@@ -1,12 +1,18 @@
-const {callbacksTask} = require('./src/callbacks')
+const {startCallbacks} = require('./src/callbacks')
 const {promisesTask} = require('./src/promises')
 const {asyncTask} = require('./src/async')
 
 
 async function boot(){
-    await callbacksTask
-    await promisesTask
-    await asyncTask
+    startCallbacks()
+    
+    setTimeout(() => {
+        promisesTask()
+    }, 4000)
+
+    setTimeout(() => {
+        asyncTask()
+    }, 8000)
 }
 
 boot()

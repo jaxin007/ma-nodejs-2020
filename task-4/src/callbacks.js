@@ -21,13 +21,13 @@ function startCallbacks() {
     }
     console.log(`second throw: ${secondDice}`);
     return secondDice;
-  }, 2000);
+  }, 2700);
 
   setTimeout(() => {
     sum = firstDice + secondDice;
     console.log(`result: ${sum}`);
     return sum;
-  }, 3000);
+  }, 5700);
 }
 
 module.exports = {
