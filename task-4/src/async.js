@@ -26,4 +26,6 @@ async function boot() {
 
 boot();
 
-module.exports;
+module.exports = {
+  boot,
+};

@@ -25,4 +25,6 @@ throwDiceAfter(700)
   })
   .catch(console.error);
 
-module.exports;
+module.exports = {
+  throwDiceAfter,
+};
