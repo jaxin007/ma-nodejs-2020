@@ -8,7 +8,7 @@ function startCallbacks() {
   setTimeout(() => {
     firstDice = throwDice(6, 0);
     if (firstDice === 0) {
-      throw new Error('Lost dice');
+      process.exit();
     }
     console.log(`first throw: ${firstDice}`);
     return firstDice;
@@ -17,19 +17,21 @@ function startCallbacks() {
   setTimeout(() => {
     secondDice = throwDice(6, 0);
     if (secondDice === 0) {
-      throw new Error('Lost dice');
+      process.exit();
     }
     console.log(`second throw: ${secondDice}`);
     return secondDice;
-  }, 2700);
+  }, 2000);
 
   setTimeout(() => {
     sum = firstDice + secondDice;
     console.log(`result: ${sum}`);
     return sum;
-  }, 5700);
+  }, 3000);
 }
 
 module.exports = {
   startCallbacks,
+  firstDice,
+  secondDice,
 };

@@ -4,7 +4,7 @@ function asyncTask() {
   function throwDiceAfter(timeInMillis) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const diceThrow = throwDice(0, 6);
+        const diceThrow = throwDice(6, 0);
         if (diceThrow === 0) {
           return reject(new Error('Dice lost'));
         }
