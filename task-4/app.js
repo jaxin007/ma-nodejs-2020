@@ -7,11 +7,11 @@ async function boot() {
 
   setTimeout(() => {
     promisesTask();
-  }, 4000);
+  }, 5000);
 
   setTimeout(() => {
     asyncTask();
-  }, 8000);
+  }, 10000);
 }
 
 boot();
