@@ -8,8 +8,7 @@ function promisesTask() {
         if (diceThrow === 0) {
           return reject(new Error('Dice lost'));
         }
-        resolve(diceThrow);
-        return resolve();
+        return resolve(diceThrow);
       }, timeInMillis);
     });
   }

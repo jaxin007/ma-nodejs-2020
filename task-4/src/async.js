@@ -15,18 +15,29 @@ function asyncTask() {
   }
 
   async function boot() {
-    const firstThrow = await throwDiceAfter(700);
-    console.log(`after 0.7 sec we got first throw: ${firstThrow}`);
-    const secondThrow = await throwDiceAfter(2000);
-    console.log(`after 2 sec we got second throw: ${secondThrow}`);
+    let firstThrow;
+    let secondThrow;
+    try {
+      firstThrow = await throwDiceAfter(700);
+      console.log(`ASYNC after 0.7 sec we got first throw: ${firstThrow}`);
+    } catch (err) {
+      throw new Error('Lost dice');
+    }
+    try {
+      secondThrow = await throwDiceAfter(2000);
+      console.log(`ASYNC after 2 sec we got second throw: ${secondThrow}`);
+    } catch (err) {
+      throw new Error('Lost dice');
+    }
     let result = setTimeout(() => {
       result = firstThrow + secondThrow;
-      console.log(`after 3 sec we got result both throws: ${result}`);
+      console.log(`ASYNC after 3 sec we got result both throws: ${result}`);
     }, 3000);
   }
+
   boot();
 }
-
+asyncTask();
 module.exports = {
   asyncTask,
 };

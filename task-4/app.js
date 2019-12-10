@@ -11,7 +11,7 @@ async function boot() {
 
   setTimeout(() => {
     asyncTask();
-  }, 8000);
+  }, 10000);
 }
 
 boot();

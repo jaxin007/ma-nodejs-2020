@@ -10,7 +10,7 @@ function startCallbacks() {
     if (firstDice === 0) {
       process.exit();
     }
-    console.log(`first throw: ${firstDice}`);
+    console.log(`CALLBACKS first throw: ${firstDice}`);
     return firstDice;
   }, 700);
 
@@ -19,13 +19,13 @@ function startCallbacks() {
     if (secondDice === 0) {
       process.exit();
     }
-    console.log(`second throw: ${secondDice}`);
+    console.log(`CALLBACKS second throw: ${secondDice}`);
     return secondDice;
   }, 2000);
 
   setTimeout(() => {
     sum = firstDice + secondDice;
-    console.log(`result: ${sum}`);
+    console.log(`CALLBACKS result: ${sum}`);
     return sum;
   }, 3000);
 }
