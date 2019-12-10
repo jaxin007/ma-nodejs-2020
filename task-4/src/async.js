@@ -5,9 +5,18 @@ function throwDiceAfter(timeInMillis) {
     setTimeout(() => {
       const diceThrow = throwDice(6, 0);
       if (diceThrow === 0) {
-        return reject(new Error('Dice lost'));
+        return reject(console.error('Dice lost'));
       }
       return resolve(diceThrow);
+    }, timeInMillis);
+  });
+}
+
+function getResultAfter(a, b, timeInMillis) {
+  return new Promise((resolve) => {
+    let result = setTimeout(() => {
+      result = a + b;
+      return resolve(result);
     }, timeInMillis);
   });
 }
@@ -19,18 +28,16 @@ async function asyncTask() {
     firstThrow = await throwDiceAfter(700);
     console.log(`ASYNC after 0.7 sec we got first throw: ${firstThrow}`);
   } catch (err) {
-    throw new Error('Lost dice');
+    console.error('Lost dice');
   }
   try {
-    secondThrow = await throwDiceAfter(2000);
+    secondThrow = await throwDiceAfter(1300);
     console.log(`ASYNC after 2 sec we got second throw: ${secondThrow}`);
   } catch (err) {
-    throw new Error('Lost dice');
+    console.error('Lost dice');
   }
-  let result = setTimeout(() => {
-    result = firstThrow + secondThrow;
-    console.log(`ASYNC after 3 sec we got result both throws: ${result}`);
-  }, 3000);
+  let result = await getResultAfter(firstThrow, secondThrow, 1000);
+  console.log(`ASYNC after 3 sec we got result both throws: ${result}`)
 }
 
 module.exports = {
