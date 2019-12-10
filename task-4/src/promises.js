@@ -31,7 +31,6 @@ function promisesTask() {
           sum(firstThrow, secondThrow, 3000)
             .then((result) => {
               console.log(`after 3 sec we got result both throws: ${result}`);
-              return
             })
             .catch(console.error);
         })
