@@ -3,8 +3,8 @@ const { promisesTask } = require('./src/promises');
 const { asyncTask } = require('./src/async');
 
 function boot() {
-  startCallbacks()
-  setTimeout(promisesTask, 5000)
+  startCallbacks();
+  setTimeout(promisesTask, 5000);
   setTimeout(asyncTask, 10000);
 }
 
