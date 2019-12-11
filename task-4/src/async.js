@@ -36,8 +36,8 @@ async function asyncTask() {
   } catch (err) {
     console.error('Lost dice');
   }
-  let result = await getResultAfter(firstThrow, secondThrow, 1000);
-  console.log(`ASYNC after 3 sec we got result both throws: ${result}`)
+  const result = await getResultAfter(firstThrow, secondThrow, 1000);
+  console.log(`ASYNC after 3 sec we got result both throws: ${result}`);
 }
 
 module.exports = {
