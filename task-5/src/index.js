@@ -54,4 +54,4 @@ async function start() {
   await saveOutput(outputObject);
 }
 
-start().catch(err => console.error('🐞  🤪  🐛\n', err));
+start().catch((err) => console.error('🐞  🤪  🐛\n', err));

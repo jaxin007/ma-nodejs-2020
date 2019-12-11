@@ -15,12 +15,12 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "npx eslint app.js --fix",
+    "lint": "npx eslint ./src/index.js --fix",
     "start": "node app.js"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint"
+      "pre-commit": ""
     }
   },
   "author": "jaxin007",
