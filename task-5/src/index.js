@@ -1,9 +1,9 @@
 const path = require('path');
 const fsp = require('fs').promises;
 const zlib = require('zlib');
-// const { promisify } = require('util');
+const { promisify } = require('util');
 
-// const gunzip = promisify(zlib.gunzip);
+const gunzip = promisify(zlib.gunzip);
 // const gzip = promisify(zlib.gzip);
 
 const inputDirName = 'input';
@@ -14,12 +14,13 @@ const inputDir = path.join(process.cwd(), inputDirName);
 // const outputFile // absolute path to output file
 
 async function getInputFileList() {
-  const files = await fsp.readdir(inputDirName);
-  return files.map((file) => process.join(inputDir, file));
+  const files = await fsp.readdir(inputDir);
+  return files.map((file) => path.join(inputDir, file));
 }
 
 async function getObjectFromFile(filePath) {
-  const buffer = await fsp.readFile(filePath);
+  const compressedBuffer = await fsp.readFile(filePath);
+  const jsonBuffer = await gunzip(compressedBuffer);
   // read file to buffer
   // decompress buffer with gunzip
   // convert buffer to JSON string
@@ -35,7 +36,7 @@ function rebuildUrl(originalUrl) {
 }
 
 async function buildOutputObject(files) {
-  for (const file in files) {
+  for (const file of files) {
     const result = await getObjectFromFile(file);
   }
   // for each file:
