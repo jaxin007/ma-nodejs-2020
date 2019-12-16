@@ -5,12 +5,13 @@ const zlib = require('zlib');
 const { promisify } = require('util');
 
 const gunzip = promisify(zlib.gunzip);
-// const gzip = promisify(zlib.gzip);
+const gzip = promisify(zlib.gzip);
 
 const inputDirName = 'input';
 const outputDirName = 'output';
 const outputFileName = 'result.json.gz';
 
+const outputDir = path.join(process.cwd(), outputDirName);
 const inputDir = path.join(process.cwd(), inputDirName);
 // const outputFile // absolute path to output file
 
@@ -34,11 +35,12 @@ async function getObjectFromFile(filePath) {
 
 function rebuildUrl(originalUrl) {
   const url = new URL(originalUrl);
+  const parsedUrl = path.parse(originalUrl);
   url.protocol = 'https';
   url.pathname = '/devices';
-  url.searchParams.set('file', 'keyboards');
-  // url.searchParams.('type');
-  return url.toJSON();
+  url.searchParams.set('file', parsedUrl.name);
+  url.searchParams.set('type', parsedUrl.ext);
+  return url.toString();
   // Change protocol, path, search string of URL
   // use URL class
   // Example:
@@ -64,6 +66,11 @@ async function buildOutputObject(files) {
 }
 
 async function saveOutput(object) {
+  let jsonStringifyed = JSON.stringify(object);
+  jsonStringifyed = Buffer.from('string', 'utf-8');
+  const gzipBuffer = await gzip(jsonStringifyed);
+  const writtedBuffer = await fsp.writeFile(outputDir, gzipBuffer);
+  return writtedBuffer;
   // stringify object to JSON string
   // create buffer from string
   // compress buffer with gzip
