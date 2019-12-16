@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 const path = require('path');
 const fsp = require('fs').promises;
 const zlib = require('zlib');
@@ -21,6 +22,8 @@ async function getInputFileList() {
 async function getObjectFromFile(filePath) {
   const compressedBuffer = await fsp.readFile(filePath);
   const jsonBuffer = await gunzip(compressedBuffer);
+  const json = jsonBuffer.toString();
+  const object = JSON.parse(json);
   // read file to buffer
   // decompress buffer with gunzip
   // convert buffer to JSON string
@@ -28,6 +31,7 @@ async function getObjectFromFile(filePath) {
 }
 
 function rebuildUrl(originalUrl) {
+  // const url = new URL(originalUrl);
   // Change protocol, path, search string of URL
   // use URL class
   // Example:
@@ -36,9 +40,15 @@ function rebuildUrl(originalUrl) {
 }
 
 async function buildOutputObject(files) {
+  const result = {};
   for (const file of files) {
-    const result = await getObjectFromFile(file);
+    // eslint-disable-next-line no-await-in-loop
+    const object = await getObjectFromFile(file);
+    object.url = rebuildUrl(object.url);
+    const name = path.basename(file.toLowerCase(), '.json.gz');
+    result[name] = object;
   }
+  return result;
   // for each file:
   // get content with getObjectFromFile() function
   // update "url" field with rebuildUrl() function
