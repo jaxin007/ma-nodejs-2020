@@ -24,6 +24,8 @@ async function getObjectFromFile(filePath) {
   const jsonBuffer = await gunzip(compressedBuffer);
   const json = jsonBuffer.toString();
   const object = JSON.parse(json);
+  console.log(object.url);
+  return object;
   // read file to buffer
   // decompress buffer with gunzip
   // convert buffer to JSON string
@@ -31,7 +33,12 @@ async function getObjectFromFile(filePath) {
 }
 
 function rebuildUrl(originalUrl) {
-  // const url = new URL(originalUrl);
+  const url = new URL(originalUrl);
+  url.protocol = 'https';
+  url.pathname = '/devices';
+  url.searchParams.set('file', 'keyboards');
+  // url.searchParams.('type');
+  return url.toJSON();
   // Change protocol, path, search string of URL
   // use URL class
   // Example:
