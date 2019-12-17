@@ -16,11 +16,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "npx eslint ./src/index.js --fix",
-    "start": "node app.js"
+    "start": "node ./src/index.js"
   },
   "husky": {
     "hooks": {
-      "pre-commit": ""
+      "pre-commit": "npx eslint ./src/index.js --fix"
     }
   },
   "author": "jaxin007",

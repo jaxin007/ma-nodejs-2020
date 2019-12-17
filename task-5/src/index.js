@@ -25,7 +25,6 @@ async function getObjectFromFile(filePath) {
   const jsonBuffer = await gunzip(compressedBuffer);
   const json = jsonBuffer.toString();
   const object = JSON.parse(json);
-  console.log(object.url);
   return object;
   // read file to buffer
   // decompress buffer with gunzip
@@ -66,10 +65,10 @@ async function buildOutputObject(files) {
 }
 
 async function saveOutput(object) {
-  let jsonStringifyed = JSON.stringify(object);
-  jsonStringifyed = Buffer.from('string', 'utf-8');
+  const jsonStringifyed = JSON.stringify(object);
   const gzipBuffer = await gzip(jsonStringifyed);
-  const writtedBuffer = await fsp.writeFile(outputDir, gzipBuffer);
+  const resultOutput = path.join(outputDir, outputFileName);
+  const writtedBuffer = await fsp.writeFile(resultOutput, gzipBuffer);
   return writtedBuffer;
   // stringify object to JSON string
   // create buffer from string
