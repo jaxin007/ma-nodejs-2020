@@ -68,8 +68,7 @@ async function saveOutput(object) {
   const jsonStringifyed = JSON.stringify(object);
   const gzipBuffer = await gzip(jsonStringifyed);
   const resultOutput = path.join(outputDir, outputFileName);
-  const writtedBuffer = await fsp.writeFile(resultOutput, gzipBuffer);
-  return writtedBuffer;
+  await fsp.writeFile(resultOutput, gzipBuffer);
   // stringify object to JSON string
   // create buffer from string
   // compress buffer with gzip
