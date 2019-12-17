@@ -82,17 +82,20 @@ async function start() {
   try {
     inputFiles = await getInputFileList();
   } catch (e) {
-    console.error('Error when inputFiles');
+    console.error(e.message);
+    throw new Error('Failed to get input files list');
   }
   try {
     outputObject = await buildOutputObject(inputFiles);
   } catch (e) {
-    console.error('Error when outputObject');
+    console.error(e.message);
+    throw new Error('Failed to build output object');
   }
   try {
     await saveOutput(outputObject);
   } catch (e) {
-    console.error('Error when saveOutput');
+    console.error(e.message);
+    throw new Error('Failed when saving files in output folder');
   }
 }
 
