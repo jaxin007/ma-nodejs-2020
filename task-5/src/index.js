@@ -77,9 +77,23 @@ async function saveOutput(object) {
 }
 
 async function start() {
-  const inputFiles = await getInputFileList();
-  const outputObject = await buildOutputObject(inputFiles);
-  await saveOutput(outputObject);
+  let inputFiles;
+  let outputObject;
+  try {
+    inputFiles = await getInputFileList();
+  } catch (e) {
+    console.error('Error when inputFiles');
+  }
+  try {
+    outputObject = await buildOutputObject(inputFiles);
+  } catch (e) {
+    console.error('Error when outputObject');
+  }
+  try {
+    await saveOutput(outputObject);
+  } catch (e) {
+    console.error('Error when saveOutput');
+  }
 }
 
 start().catch((err) => console.error('🐞  🤪  🐛\n', err));
