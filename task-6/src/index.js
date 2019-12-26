@@ -2,10 +2,10 @@ const os = require('os');
 
 const greenColor = '\x1b[32m';
 const redColor = '\x1b[31m';
-const yellowColor = '\x1b[33m';
-const blueColor = '\x1b[34m';
+// const yellowColor = '\x1b[33m';
+// const blueColor = '\x1b[34m';
 const whiteColor = '\x1b[37m';
-//colores
+// colores
 
 const monitor = setInterval(() => {
   os.freemem();
