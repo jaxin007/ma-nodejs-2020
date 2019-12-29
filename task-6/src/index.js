@@ -7,18 +7,16 @@ const os = require('os');
 // const whiteColor = '\x1b[37m';
 // colores
 
-function memoryMonitor(Rate) {
+function memoryMonitor(rate) {
   setInterval(() => {
     os.freemem();
     os.totalmem();
+    console.clear();
     const totalmem = os.totalmem() / (1024 * 1024);
     const freemem = os.freemem() / (1024 * 1024);
     console.log('Total memory available:', totalmem.toFixed(3), 'MB');
     console.log('Free memory available:', freemem.toFixed(3), 'MB');
-    setInterval(() => {
-      console.clear();
-    }, Rate);
-  }, Rate);
+  }, rate);
 }
 
 module.exports = {
