@@ -21,4 +21,6 @@ function memoryMonitor(Rate) {
   }, Rate);
 }
 
-memoryMonitor(1000);
+module.exports = {
+  memoryMonitor,
+};
