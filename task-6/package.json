@@ -2,7 +2,7 @@
   "name": "homework-06",
   "version": "",
   "description": "",
-  "main": "index,.js",
+  "main": "app,.js",
   "dependencies": {},
   "devDependencies": {
     "husky": "^3.0.9",

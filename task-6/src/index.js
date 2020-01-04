@@ -14,8 +14,10 @@ function memoryMonitor(rate) {
     console.clear();
     const totalmem = os.totalmem() / (1024 * 1024);
     const freemem = os.freemem() / (1024 * 1024);
+    const allocatedMem = totalmem - freemem;
     console.log('Total memory available:', totalmem.toFixed(3), 'MB');
     console.log('Free memory available:', freemem.toFixed(3), 'MB');
+    console.log('Allocated memory:', allocatedMem.toFixed(3), 'MB');
   }, rate);
 }
 
