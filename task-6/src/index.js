@@ -8,6 +8,10 @@ let defaultColor = '\x1b[37m';
 
 function memoryMonitor(rate, limit, color) {
   let lastFreeMem = os.freemem();
+  if (os.freemem() > limit) {
+    defaultColor = redColor;
+    redColor = greenColor;
+  }
   setInterval(() => {
     os.freemem();
     os.totalmem();
@@ -17,19 +21,15 @@ function memoryMonitor(rate, limit, color) {
     const allocatedMem = totalMem - freeMem;
     const delta = freeMem - lastFreeMem;
     lastFreeMem = freeMem;
-    if (freeMem < limit) {
-      defaultColor = redColor;
-      greenColor = redColor;
-      setTimeout(() => {
-        console.log(
-          `${redColor}!!! ATTENTION: Available memory is under the defined limit !!!${whiteColor}`,
-        );
-      }, 0);
-    }
     if (color === false) {
       redColor = whiteColor;
       defaultColor = whiteColor;
       greenColor = whiteColor;
+    }
+    if (delta < 0) {
+      greenColor = '\x1b[31m'; // change green color to red if delta < 0
+    } else {
+      greenColor = '\x1b[32m'; // return green color if delta > 0
     }
     console.log(`Total memory available: ${totalMem.toFixed(3)}, MB`);
     console.log(`Free memory available:${defaultColor} ${freeMem.toFixed(3)} ${whiteColor}MB`);
@@ -37,6 +37,11 @@ function memoryMonitor(rate, limit, color) {
     console.log(
       `Delta for previous allocated mamory value: ${greenColor} ${delta} ${whiteColor}MB`,
     );
+    if (freeMem < limit) {
+      console.log(
+        `${'\x1b[31m'}!!! ATTENTION: Available memory is under the defined limit !!!${whiteColor}`,
+      );
+    }
   }, rate);
 }
 
