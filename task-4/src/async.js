@@ -1,16 +1,4 @@
-const { throwDice } = require('./throwdicefunc');
-
-function throwDiceAfter(timeInMillis) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const diceThrow = throwDice(6, 0);
-      if (diceThrow === 0) {
-        return reject(console.error('Dice lost'));
-      }
-      return resolve(diceThrow);
-    }, timeInMillis);
-  });
-}
+const { throwDiceAfter } = require('./throwdicefunc');
 
 function getResultAfter(a, b, timeInMillis) {
   return new Promise((resolve) => {
@@ -37,7 +25,7 @@ async function asyncTask() {
     console.error('Lost dice');
   }
   let result = await getResultAfter(firstThrow, secondThrow, 1000);
-  console.log(`ASYNC after 3 sec we got result both throws: ${result}`)
+  console.log(`ASYNC after 3 sec we got result both throws: ${result}`);
 }
 
 module.exports = {
