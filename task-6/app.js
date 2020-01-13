@@ -4,7 +4,7 @@ const { memoryMonitor } = require('./src/index');
 
 const rate = process.env.RATE || 1000;
 const RATE = JSON.parse(rate);
-const limit = process.env.LIMIT || 10000;
-const colorValue = process.env.COLOR === 'false';
+const limit = process.env.LIMIT || 300;
+const colorValue = process.env.COLOR !== 'false';
 const color = JSON.parse(colorValue);
 memoryMonitor(RATE, limit, color);

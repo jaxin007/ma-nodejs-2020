@@ -1,4 +1,5 @@
 const os = require('os');
+const { toColorText } = require('./color');
 
 const whiteColor = '\x1b[37m';
 let greenColor = '\x1b[32m';
@@ -15,6 +16,8 @@ function memoryMonitor(rate, limit, color) {
     const allocatedMem = totalMem - freeMem;
     const delta = freeMem - lastFreeMem;
     lastFreeMem = freeMem;
+    let freeMemText = freeMem.toFixed(3);
+    let deltaText = delta;
 
     if (color === false) {
       redColor = whiteColor;
@@ -22,31 +25,31 @@ function memoryMonitor(rate, limit, color) {
     }
     console.log(`Total memory available: ${totalMem.toFixed(3)}, MB`);
 
-    if (freeMem > limit) {
-      console.log(`Free memory available:${whiteColor} ${freeMem.toFixed(3)} ${whiteColor}MB`);
-    } else {
-      console.log(`Free memory available:${redColor} ${freeMem.toFixed(3)} ${whiteColor}MB`);
+    if (freeMem < limit) {
+      freeMemText = toColorText(redColor, freeMemText);
     }
+
+    console.log(`Free memory available: ${freeMemText} MB`);
     console.log(`Allocated memory: ${allocatedMem.toFixed(3)}MB`);
 
     if (delta < 0) {
-      console.log(
-        `Delta for previous allocated mamory value: ${redColor} ${delta} ${whiteColor}MB`,
-      );
+      deltaText = toColorText(redColor, deltaText);
     } else {
-      console.log(
-        `Delta for previous allocated mamory value: ${greenColor} ${delta} ${whiteColor}MB`,
-      );
+      deltaText = toColorText(greenColor, deltaText);
     }
+    console.log(`Delta for previous allocated mamory value: ${deltaText} MB`);
 
     if (freeMem < limit) {
       console.log(
-        `${redColor}!!! ATTENTION: Available memory is under the defined limit !!!${whiteColor}`,
+        `${toColorText(
+          redColor,
+          '!!! ATTENTION: Available memory is under the defined limit !!!',
+        )}`,
       );
     }
   }, rate);
 }
-memoryMonitor(1000, 10000, 'false');
+
 module.exports = {
   memoryMonitor,
 };
