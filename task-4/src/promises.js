@@ -1,16 +1,4 @@
-const { throwDice } = require('./throwdicefunc');
-
-function throwDiceAfter(timeInMillis) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const diceThrow = throwDice(6, 0);
-      if (diceThrow === 0) {
-        return reject(new Error('Dice lost'));
-      }
-      return resolve(diceThrow);
-    }, timeInMillis);
-  });
-}
+const { throwDiceAfter } = require('./throwdicefunc');
 
 function sum(a, b, timeInMillis) {
   return new Promise((resolve) => {
