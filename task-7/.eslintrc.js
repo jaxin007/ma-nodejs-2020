@@ -16,5 +16,5 @@ module.exports = {
     'no-console': 'off',
     semi: ['error', 'always'],
   },
-  // plugins: ['prettier'],
+  plugins: ['prettier'],
 };
