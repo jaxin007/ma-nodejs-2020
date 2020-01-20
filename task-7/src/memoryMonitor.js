@@ -47,6 +47,7 @@ function memoryMonitor(rate, limit, color) {
         )}`,
       );
     }
+    return totalMem
   }, rate);
 }
 

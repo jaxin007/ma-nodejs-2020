@@ -1,19 +1,18 @@
 const http = require('http');
-const { memoryMonitor } = require('./memoryMonitor');
-
+const  { memoryMonitor }  = require('./memoryMonitor');
+console.clear()
 const port = 8000;
 http
   .createServer(function(req, res) {
-    const { method, url, baseUrl } = req;
+    const { method, url } = req;
     res.writeHead(200, { 'Content-Type': 'application/json' });
 
-    switch (url) {
-      case '/':
-        res.write('Server started');
-        res.end();
-        break;
-      case '/user':
-        if (method === 'GET' && baseUrl === '/limit') res.write(JSON.stringify(memoryMonitor));
+    switch (method) {
+      case 'GET':
+        const totalMem = { totalMem: memoryMonitor.totalMem }
+
+        console.log(`limit is ${JSON.stringify(totalMem)}`)
+        if (url === '/limit') res.write(JSON.stringify(totalMem));
         res.end();
         break;
       default:
