@@ -1,23 +1,28 @@
 const http = require('http');
-const { memoryMonitor } = require('./memoryMonitor');
+const url = require('url');
+const { metricsController, limitController, defaultController } = require('./controllers');
 
-console.clear();
-const port = 8000;
-http
-  .createServer(function(req, res) {
-    const { method, url } = req;
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    const totalMem = { totalMem: memoryMonitor.totalMem };
+const PORT = 8080;
 
-    switch (method) {
-      case 'GET':
-        console.log(`limit is ${JSON.stringify(totalMem)}`);
-        if (url === '/limit') res.write(JSON.stringify(totalMem));
-        res.end();
-        break;
-      default:
-        break;
-    }
-  })
-  .listen(port);
-console.log(`server started with port ${port}`);
+const limit = 5000;
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  const baseUrl = url.parse(req.url).pathname;
+
+  switch (baseUrl) {
+    case '/limit':
+      limitController(req, res, limit);
+      break;
+
+    case '/metrics':
+      metricsController(req, res);
+      break;
+
+    default:
+      defaultController(req, res);
+  }
+});
+
+server.listen(PORT);
+console.log(`Server started on ${PORT} port`);
