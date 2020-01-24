@@ -40,7 +40,7 @@ function limitController(req, res, limit) {
 }
 
 function metricsController(req, res) {
-  const filter = url.parse(req.url, true).query;
+  const { filter } = url.parse(req.url, true).query;
   const allowedFilters = ['total', 'free', 'allocated'];
   switch (req.method) {
     case 'GET':
