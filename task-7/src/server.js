@@ -25,7 +25,6 @@ function startServer(PORT) {
   });
 
   server.listen(PORT);
-  console.log(`Server started on ${PORT} port`);
 }
 
 module.exports = {

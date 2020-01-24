@@ -11,7 +11,8 @@ function parseBody(req, callback) {
 }
 
 function defaultController(req, res) {
-  res.write(JSON.stringify({ serverStatus: 'working' }));
+  res.writeHead(404, { 'Content-Type': 'application/json' });
+  res.write(`Status: ${res.statusCode}`);
   res.end();
 }
 
@@ -29,7 +30,12 @@ function limitController(req, res, limit) {
       parseBody(req, (body) => {
         // eslint-disable-next-line no-param-reassign
         limit = body.limit;
-        res.write(JSON.stringify({ ENV_LIMIT: limit }));
+        res.write(`Response code: ${res.statusCode}\nResponse body:\n`);
+        res.write(
+          JSON.stringify({
+            message: `Minimum free memory limit is successfully set to ${limit} MB`,
+          }),
+        );
         res.end();
       });
       break;
@@ -45,14 +51,7 @@ function metricsController(req, res) {
   switch (req.method) {
     case 'GET':
       if (filter && !allowedFilters.includes(filter)) {
-        res.write(
-          JSON.stringify({
-            errorCode: 400,
-            errorMessage: `You cannot use this filter: '${filter}'. Allowed filters are: ${allowedFilters}`,
-          }),
-        );
-        res.end();
-        return;
+        defaultController(req, res);
       }
 
       switch (filter) {
