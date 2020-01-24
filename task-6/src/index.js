@@ -17,7 +17,7 @@ function memoryMonitor(rate, limit, color) {
     const delta = freeMem - lastFreeMem;
     lastFreeMem = freeMem;
     let freeMemText = freeMem.toFixed(3);
-    let deltaText = delta;
+    let deltaText = delta.toFixed(3);
 
     if (color === false) {
       redColor = whiteColor;
