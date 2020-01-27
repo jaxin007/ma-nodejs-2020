@@ -19,9 +19,12 @@ function defaultController(req, res) {
 function limitController(req, res, limit) {
   switch (req.method) {
     case 'GET':
-      res.write(JSON.stringify({ LIMIT: limit }));
       if (systemStatus.freeMem < limit) {
-        res.write(JSON.stringify({ Warning: 'Available memory is under the defined limit' }));
+        res.write(
+          JSON.stringify({ LIMIT: limit, Warning: 'Available memory is under the defined limit' }),
+        );
+      } else {
+        res.write(JSON.stringify({ LIMIT: limit }));
       }
       res.end();
       break;
