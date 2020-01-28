@@ -9,7 +9,7 @@ function parseBody(req, callback) {
 }
 
 function defaultController(req, res) {
-  res.setHeader(404, { 'Content-Type': 'application/json' });
+  res.writeHead(404, { 'Content-Type': 'application/json' });
   res.write(`Status: ${res.statusCode}`);
   res.end();
 }
@@ -92,4 +92,5 @@ function metricsController(req, res) {
 module.exports = {
   metricsController,
   limitController,
+  defaultController,
 };
