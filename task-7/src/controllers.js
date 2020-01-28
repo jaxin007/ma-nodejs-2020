@@ -1,8 +1,6 @@
 const url = require('url');
 const { getSystemStatus } = require('./get-system-status');
 
-const systemStatus = getSystemStatus();
-
 function parseBody(req, callback) {
   const body = [];
   req
@@ -11,7 +9,7 @@ function parseBody(req, callback) {
 }
 
 function defaultController(req, res) {
-  res.writeHead(404, { 'Content-Type': 'application/json' });
+  res.setHeader(404, { 'Content-Type': 'application/json' });
   res.write(`Status: ${res.statusCode}`);
   res.end();
 }
@@ -19,7 +17,7 @@ function defaultController(req, res) {
 function limitController(req, res, limit) {
   switch (req.method) {
     case 'GET':
-      if (systemStatus.freeMem < limit) {
+      if (getSystemStatus().freeMem < limit) {
         res.write(
           JSON.stringify({ LIMIT: limit, Warning: 'Available memory is under the defined limit' }),
         );
@@ -49,8 +47,14 @@ function limitController(req, res, limit) {
 }
 
 function metricsController(req, res) {
+  const systemStatus = getSystemStatus();
   const { filter } = url.parse(req.url, true).query;
   const allowedFilters = ['total', 'free', 'allocated'];
+
+  const totalMemToOut = systemStatus.totalMem;
+  const freeMemToOut = systemStatus.freeMem;
+  const allocatedMemToOut = systemStatus.allocatedMem;
+
   switch (req.method) {
     case 'GET':
       if (filter && !allowedFilters.includes(filter)) {
@@ -59,17 +63,17 @@ function metricsController(req, res) {
 
       switch (filter) {
         case 'total':
-          res.write(JSON.stringify({ totalMem: systemStatus.totalMem }));
+          res.write(JSON.stringify({ totalMem: totalMemToOut }));
           res.end();
           break;
 
         case 'free':
-          res.write(JSON.stringify({ freeMem: systemStatus.freeMem }));
+          res.write(JSON.stringify({ freeMem: freeMemToOut }));
           res.end();
           break;
 
         case 'allocated':
-          res.write(JSON.stringify({ allocatedMem: systemStatus.allocatedMem }));
+          res.write(JSON.stringify({ allocatedMem: allocatedMemToOut }));
           res.end();
           break;
 
@@ -78,8 +82,7 @@ function metricsController(req, res) {
           res.end();
           break;
       }
-
-      break;
+      return;
 
     default:
       defaultController(req, res);
