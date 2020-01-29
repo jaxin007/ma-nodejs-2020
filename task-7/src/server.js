@@ -14,7 +14,7 @@ function startServer(PORT) {
       res.end(http.STATUS_CODES[401]);
     }
 
-    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.setHeader('Content-Type', 'application/json');
 
     const baseUrl = url.parse(req.url).pathname;
 
