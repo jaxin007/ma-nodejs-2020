@@ -5,15 +5,16 @@ const { metricsController, limitController, defaultController } = require('./con
 const limit = 300;
 const username = 'jaxin007';
 const password = 'dimonbil';
-const authData = `Basic Authorization${Buffer.from(`${username}:${password}`).toString('base64')}`;
+const authData = `Basic ${Buffer.from(`${username}:${password}`).toString('base64')}`;
 
 function startServer(PORT) {
   const server = http.createServer((req, res) => {
+    if (req.headers.authorization !== `${authData}`) {
+      res.statusCode = 401;
+      res.end(http.STATUS_CODES[401]);
+    }
+
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    http.get('http://user:password@127.0.0.1:3030/metrics', {
-      host: `127.0.0.1${PORT}`,
-      auth: authData,
-    });
 
     const baseUrl = url.parse(req.url).pathname;
 
