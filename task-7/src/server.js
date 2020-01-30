@@ -11,7 +11,7 @@ function startServer(PORT) {
   const server = http.createServer((req, res) => {
     if (req.headers.authorization !== `${authData}`) {
       res.statusCode = 401;
-      res.end();
+      res.end(http.STATUS_CODES[401]);
     } else {
       res.setHeader('Content-Type', 'application/json');
 
