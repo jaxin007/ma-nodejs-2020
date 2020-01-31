@@ -31,7 +31,6 @@ function limitController(req, res, limit) {
       parseBody(req, (body) => {
         // eslint-disable-next-line no-param-reassign
         limit = body.limit;
-        res.write(`Response code: ${res.statusCode}\nResponse body:\n`);
         res.write(
           JSON.stringify({
             message: `Minimum free memory limit is successfully set to ${limit} MB`,

@@ -12,28 +12,25 @@ function startServer(PORT) {
     if (req.headers.authorization !== `${authData}`) {
       res.statusCode = 401;
       res.end(http.STATUS_CODES[401]);
-    } else {
-      res.setHeader('Content-Type', 'application/json');
+      return;
+    }
 
-      const baseUrl = url.parse(req.url).pathname;
+    res.setHeader('Content-Type', 'application/json');
 
-      if (!authData) {
+    const baseUrl = url.parse(req.url).pathname;
+
+    switch (baseUrl) {
+      case '/limit':
+        limitController(req, res, limit);
+        break;
+
+      case '/metrics':
+        metricsController(req, res);
+        break;
+
+      default:
         defaultController(req, res);
-      }
-
-      switch (baseUrl) {
-        case '/limit':
-          limitController(req, res, limit);
-          break;
-
-        case '/metrics':
-          metricsController(req, res);
-          break;
-
-        default:
-          defaultController(req, res);
-          break;
-      }
+        break;
     }
   });
 
