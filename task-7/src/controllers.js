@@ -58,7 +58,7 @@ function limitController(req, res, limit) {
   }
 }
 
-function metricsController(req, res) {
+function metricsController(req, res, limit) {
   const systemStatus = getSystemStatus();
   const { filter } = url.parse(req.url, true).query;
   const allowedFilters = ['total', 'free', 'allocated'];
@@ -66,32 +66,45 @@ function metricsController(req, res) {
   const totalMemToOut = systemStatus.totalMem;
   const freeMemToOut = systemStatus.freeMem;
   const allocatedMemToOut = systemStatus.allocatedMem;
+  let limitStatus = 'OK';
+
+  if (systemStatus.freeMem < limit) {
+    limitStatus = 'Available memory is under the defined limit';
+  }
 
   switch (req.method) {
     case 'GET':
       if (!allowedFilters.includes(filter) && filter) {
-        defaultController(req, res);
+        res.statusCode = 400;
+        res.end();
         return;
       }
 
       switch (filter) {
         default:
-          res.write(JSON.stringify(systemStatus));
+          res.write(
+            JSON.stringify({
+              message: limitStatus,
+              total: totalMemToOut,
+              free: freeMemToOut,
+              allocatedMem: allocatedMemToOut,
+            }),
+          );
           res.end();
           break;
 
         case 'total':
-          res.write(JSON.stringify({ totalMem: totalMemToOut }));
+          res.write(JSON.stringify({ message: limitStatus, total: totalMemToOut }));
           res.end();
           break;
 
         case 'free':
-          res.write(JSON.stringify({ freeMem: freeMemToOut }));
+          res.write(JSON.stringify({ message: limitStatus, free: freeMemToOut }));
           res.end();
           break;
 
         case 'allocated':
-          res.write(JSON.stringify({ allocatedMem: allocatedMemToOut }));
+          res.write(JSON.stringify({ message: limitStatus, allocated: allocatedMemToOut }));
           res.end();
           break;
       }

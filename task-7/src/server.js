@@ -2,7 +2,7 @@ const http = require('http');
 const url = require('url');
 const { metricsController, limitController, defaultController } = require('./controllers');
 
-const limit = 300;
+const limit = 5000;
 const username = 'jaxin007';
 const password = 'dimonbil';
 const authData = `Basic ${Buffer.from(`${username}:${password}`).toString('base64')}`;
@@ -25,7 +25,7 @@ function startServer(PORT) {
         break;
 
       case '/metrics':
-        metricsController(req, res);
+        metricsController(req, res, limit);
         break;
 
       default:
