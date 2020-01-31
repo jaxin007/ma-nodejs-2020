@@ -1,11 +1,17 @@
 const url = require('url');
 const { getSystemStatus } = require('./get-system-status');
 
-function parseBody(req) {
+function parseBody(req, callback, onError) {
   const body = [];
   req
     .on('data', (chunk) => body.push(chunk))
-    .on('end', () => JSON.parse(Buffer.concat(body).toString()));
+    .on('end', () => {
+      try {
+        callback(JSON.parse(Buffer.concat(body).toString()));
+      } catch (err) {
+        onError(err);
+      }
+    });
 }
 
 function defaultController(req, res) {
@@ -27,16 +33,24 @@ function limitController(req, res, limit) {
       break;
 
     case 'POST':
-      parseBody(req, (body) => {
-        // eslint-disable-next-line no-param-reassign
-        limit = body.limit;
-        res.write(
-          JSON.stringify({
-            message: `Minimum free memory limit is successfully set to ${limit} MB`,
-          }),
-        );
-        res.end();
-      });
+      parseBody(
+        req,
+        (body) => {
+          // eslint-disable-next-line no-param-reassign
+          limit = body.limit;
+          res.write(
+            JSON.stringify({
+              message: `Minimum free memory limit is successfully set to ${limit} MB`,
+            }),
+          );
+          res.end();
+        },
+        (err) => {
+          const error = err.toString();
+          res.statusCode = 400;
+          res.end(JSON.stringify({ error }));
+        },
+      );
       break;
 
     default:
