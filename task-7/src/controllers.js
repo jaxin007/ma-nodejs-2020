@@ -1,16 +1,15 @@
 const url = require('url');
 const { getSystemStatus } = require('./get-system-status');
 
-function parseBody(req, callback) {
+function parseBody(req) {
   const body = [];
   req
     .on('data', (chunk) => body.push(chunk))
-    .on('end', () => callback(JSON.parse(Buffer.concat(body).toString())));
+    .on('end', () => JSON.parse(Buffer.concat(body).toString()));
 }
 
 function defaultController(req, res) {
-  res.writeHead(404, { 'Content-Type': 'application/json' });
-  res.write(`Status: ${res.statusCode}`);
+  res.statusCode = 404;
   res.end();
 }
 
@@ -56,11 +55,17 @@ function metricsController(req, res) {
 
   switch (req.method) {
     case 'GET':
-      if (filter && !allowedFilters.includes(filter)) {
+      if (!allowedFilters.includes(filter) && filter) {
         defaultController(req, res);
+        return;
       }
 
       switch (filter) {
+        default:
+          res.write(JSON.stringify(systemStatus));
+          res.end();
+          break;
+
         case 'total':
           res.write(JSON.stringify({ totalMem: totalMemToOut }));
           res.end();
@@ -73,11 +78,6 @@ function metricsController(req, res) {
 
         case 'allocated':
           res.write(JSON.stringify({ allocatedMem: allocatedMemToOut }));
-          res.end();
-          break;
-
-        default:
-          res.write(JSON.stringify(systemStatus));
           res.end();
           break;
       }
