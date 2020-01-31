@@ -1,6 +1,8 @@
 const url = require('url');
 const { getSystemStatus } = require('./get-system-status');
 
+let limit = 1000;
+
 function parseBody(req, callback, onError) {
   const body = [];
   req
@@ -19,7 +21,7 @@ function defaultController(req, res) {
   res.end();
 }
 
-function limitController(req, res, limit) {
+function limitController(req, res) {
   switch (req.method) {
     case 'GET':
       if (getSystemStatus().freeMem < limit) {
@@ -58,7 +60,7 @@ function limitController(req, res, limit) {
   }
 }
 
-function metricsController(req, res, limit) {
+function metricsController(req, res) {
   const systemStatus = getSystemStatus();
   const { filter } = url.parse(req.url, true).query;
   const allowedFilters = ['total', 'free', 'allocated'];
