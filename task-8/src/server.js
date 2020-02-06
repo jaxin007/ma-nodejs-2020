@@ -4,8 +4,6 @@ const { metricsController, limitController, defaultController } = require('./con
 
 function startServer(PORT) {
   const server = http.createServer((req, res) => {
-    res.setHeader('Content-Type', 'application/json');
-
     const baseUrl = url.parse(req.url).pathname;
 
     switch (baseUrl) {
@@ -25,9 +23,6 @@ function startServer(PORT) {
 
   server.listen(PORT);
 }
-
-startServer(3030);
-
 module.exports = {
   startServer,
 };

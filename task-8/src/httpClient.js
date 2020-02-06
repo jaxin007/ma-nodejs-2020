@@ -1,9 +1,4 @@
 const http = require('http');
-const querystring = require('querystring');
-
-const postData = querystring.stringify({
-  msg: `total:`,
-});
 
 function httpRequest(options) {
   return new Promise((resolve, reject) => {
@@ -24,8 +19,6 @@ function httpRequest(options) {
       req.on('error', (err) => {
         reject(err);
       });
-
-      console.log(postData);
 
       req.end();
     });

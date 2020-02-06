@@ -1,11 +1,13 @@
 const { main: startClient } = require('./httpClient');
+const { startServer } = require('./server');
 
-const PORT = 3030;
+const PORT = 30030;
 
 const options = {
-  hostname: 'http://localhost',
+  pathname: `http://localhost`,
   port: PORT,
   method: 'GET',
 };
 
+startServer(PORT);
 startClient(options);

@@ -1,5 +1,6 @@
 const url = require('url');
 const { getSystemStatus } = require('../system-info/get-system-status');
+const { getRandomInt } = require('./random');
 
 let limit = 1000;
 
@@ -62,6 +63,7 @@ function limitController(req, res) {
 
 function metricsController(req, res) {
   const systemStatus = getSystemStatus();
+  const randomNumber = getRandomInt(5);
   const { filter } = url.parse(req.url, true).query;
   const allowedFilters = ['total', 'free', 'allocated'];
 
@@ -72,6 +74,10 @@ function metricsController(req, res) {
 
   if (systemStatus.freeMem < limit) {
     limitStatus = 'Available memory is under the defined limit';
+  }
+
+  if (randomNumber < 2) {
+    res.statusCode = 404;
   }
 
   switch (req.method) {
