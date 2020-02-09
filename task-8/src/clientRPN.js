@@ -1,6 +1,5 @@
-const request = require('request');
-
-const retry = request('./retry');
+const rp = require('request-promise');
+const retry = require('retry');
 
 const options = {
   method: 'GET',
@@ -8,11 +7,25 @@ const options = {
   json: true,
 };
 
-async function RPN() {
-  const response = await request(options);
-  console.log(response);
+function rpn(TIME) {
+  setInterval(() => {
+    const operation = retry.operation({
+      retries: 30,
+      factor: 2,
+      minTimeout: 100,
+      randomize: false,
+    });
+
+    operation.attempt((currentAttempt) => {
+      rp(options)
+        .then((response) => {
+          console.log(`Status:\n ${JSON.stringify(response)} on ${currentAttempt} attempt`);
+        })
+        .catch((error) => {
+          console.error(`Status: ${error.statusCode}`);
+        });
+    });
+  }, TIME);
 }
 
-RPN().catch(() => {
-  retry(RPN().response, 200, RPN());
-});
+module.exports = { rpn };

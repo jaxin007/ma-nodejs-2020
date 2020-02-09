@@ -1,37 +1,57 @@
 const http = require('http');
+const retry = require('retry');
 
-function httpRequest(options) {
+function httpRequestPromisified(options) {
   return new Promise((resolve, reject) => {
-    // eslint-disable-next-line prettier/prettier
-    const req = http.request(options, res => {
-      res.setEncoding('utf8');
-
+    const request = http.request(options, (response) => {
       let rawData = '';
-      req.on('data', (chunk) => {
-        rawData = +chunk;
-      });
 
-      req.on('end', () => {
-        res.data = rawData;
-        resolve(res);
+      response.on('data', (chunk) => {
+        rawData += chunk;
       });
-
-      req.on('error', (err) => {
-        reject(err);
+      response.on('end', () => {
+        response.data = JSON.parse(rawData);
+        setTimeout(() => resolve(response), 500);
       });
-
-      req.end();
     });
+
+    request.on('error', (err) => reject(err));
+
+    if (options.body) request.write(options.body);
+
+    request.end();
   });
 }
 
-async function main(options) {
-  try {
-    const data = await httpRequest(options);
-    console.log(data);
-  } catch (err) {
-    console.log(err);
-  }
+const options = {
+  method: 'GET',
+  hostname: 'localhost',
+  port: 3030,
+  path: '/limit/metrics',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+};
+
+function httpClient(time) {
+  setInterval(() => {
+    const operation = retry.operation({
+      retries: 20,
+      factor: 2,
+      minTimeout: 100,
+    });
+
+    operation.attempt((currentAttempt) => {
+      httpRequestPromisified(options)
+        .then((response) => {
+          console.log('Current LIMIT:\n', response.data);
+        })
+        .then((response) => console.log('Current METRICS\n', response.data))
+        .catch((error) => {
+          console.error('An error with request to NEW:\n', error.message);
+        });
+    });
+  }, time);
 }
 
-module.exports = { main };
+module.exports = { httpClient };
