@@ -76,8 +76,8 @@ function metricsController(req, res) {
     limitStatus = 'Available memory is under the defined limit';
   }
 
-  if (randomNumber < 2) {
-    res.statusCode = 404;
+  if (randomNumber < 4) {
+    res.statusCode = 418;
   }
 
   switch (req.method) {
