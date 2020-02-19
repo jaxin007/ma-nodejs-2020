@@ -13,7 +13,7 @@ module.exports = {
 		sourceType: 'module'
 	},
 	rules: {
-		allowForLoopAfterthoughts: true,
+		allowForLoopAfterthoughts: 0,
 		'no-console': 'off',
 		semi: [ 'error', 'always' ]
 	},
