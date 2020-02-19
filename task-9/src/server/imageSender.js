@@ -5,7 +5,6 @@ const config = require('../config');
 const { endResponse } = require('./helpers');
 
 class DotsGenerator extends Transform {
-  // eslint-disable-next-line no-useless-constructor
   constructor() {
     super();
     this.length = 0;
