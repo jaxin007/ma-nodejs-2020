@@ -4,7 +4,7 @@
   "description": "second-task",
   "main": "index,.js",
   "dependencies": {
-    "nanoid": "^2.1.6"
+    "nanoid": "^3.1.31"
   },
   "devDependencies": {
     "husky": "^3.0.9",
